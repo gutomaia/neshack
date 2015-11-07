@@ -4,14 +4,14 @@ import json
 IP = '127.0.0.1'
 
 joypad = dict(
-    up=None,
-    down=None,
-    left=None,
-    right=None,
-    A=None,
-    B=None,
-    start=None,
-    select=None)
+    up=False,
+    down=False,
+    left=False,
+    right=False,
+    A=False,
+    B=False,
+    start=False,
+    select=False)
 
 UDPSock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
@@ -24,7 +24,7 @@ while True:
         print data.strip(),addr
 
         if True:
-            joypad['A'] = True
-            joypad['B'] = True
-            data = json.dumps(joypad)
-            sock.sendto(bytes(json.dumps(joypad)), (IP, 53474))
+            joypad['A'] = not joypad['A']
+            data = dict(joypad=joypad, time=150)
+            UDPSock.sendto(bytes(json.dumps(data)), (IP, 53474))
+            print data
